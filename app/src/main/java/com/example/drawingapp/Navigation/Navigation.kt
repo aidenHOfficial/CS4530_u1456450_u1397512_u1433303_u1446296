@@ -15,7 +15,9 @@ fun AppNavHost(navController: NavHostController, startDestination: String = "lau
             LaunchedEffect(Unit) {
                 kotlinx.coroutines.delay(3000)
                 navController.navigate("drawing") {
-                    popUpTo("launch") { inclusive = true }
+                    popUpTo("launch") {
+                        inclusive = true
+                    }
                 }
             }
             SplashScreen()
