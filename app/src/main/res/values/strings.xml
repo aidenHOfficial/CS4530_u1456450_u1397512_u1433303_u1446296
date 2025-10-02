@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Drawing App</string>
     <string name="android_img_desc">An Image of a little green robot android</string>
+    <string name="red_circle_image_desc">An Image of a red circle</string>
+    <string name="blue_circle_image_desc">An Image of a blue circle</string>
+    <string name="green_circle_image_desc">An Image of a green circle</string>
+    <string name="circle_image_desc">An Image of a circle outline</string>
+    <string name="rectangle_image_desc">An Image of a circle outline</string>
+    <string name="line_image_desc">An Image of a solid black line</string>
 </resources>

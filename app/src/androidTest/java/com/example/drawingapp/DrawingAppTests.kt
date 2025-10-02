@@ -1,15 +1,18 @@
 package com.example.drawingapp
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.drawingapp.screens.DrawScreenPortrait
 import com.example.drawingapp.screens.DrawingScreen
 import com.example.drawingapp.screens.DrawingViewModel
+import com.example.drawingapp.screens.Stroke
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.*
@@ -32,5 +35,66 @@ class DrawingAppTests {
         composeTestRule.onNodeWithTag("redButton").performClick()
 
         assertEquals(Color.Red, testViewModel.color.value)
+    }
+
+    @Test
+    fun testBlueButtonClickChangesColor() {
+        val testViewModel = DrawingViewModel()
+
+        composeTestRule.setContent {
+            DrawScreenPortrait(testViewModel)
+        }
+
+        composeTestRule.onNodeWithTag("blueButton").performClick()
+
+        assertEquals(Color.Red, testViewModel.color.value)
+    }
+
+    @Test
+    fun testGreenButtonClickChangesColor() {
+        val testViewModel = DrawingViewModel()
+
+        composeTestRule.setContent {
+            DrawScreenPortrait(testViewModel)
+        }
+
+        composeTestRule.onNodeWithTag("greenButton").performClick()
+
+        assertEquals(Color.Red, testViewModel.color.value)
+    }
+
+    @Test
+    fun testCurrentStrokeUpdates() {
+        val testViewModel = DrawingViewModel()
+
+        composeTestRule.setContent {
+            DrawScreenPortrait(testViewModel)
+        }
+
+        val offset1 = Offset(10f, 20f)
+        val offset2 = Offset(30f, 40f)
+
+        testViewModel.startStroke(offset1)
+
+        assertEquals(offset1, testViewModel.currentStroke.value[0])
+
+        testViewModel.addPoint(offset2)
+
+        assertEquals(offset2, testViewModel.currentStroke.value[1])
+
+        val offsets = listOf<Offset>(offset1, offset2)
+
+        val stroke = Stroke(
+            brushType = testViewModel.brushType.value,
+            color = testViewModel.color.value,
+            size = testViewModel.brushSize.value,
+            points = offsets
+        )
+
+        assertEquals(stroke, testViewModel.strokes.value[0])
+
+        testViewModel.endStroke()
+
+        assertEquals(emptyList<Offset>(), testViewModel.currentStroke.value)
     }
 }

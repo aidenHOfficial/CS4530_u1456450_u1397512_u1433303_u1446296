@@ -170,7 +170,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.lineicon),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.line_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
                     )
@@ -187,7 +187,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.circleicon),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.circle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
                     )
@@ -204,7 +204,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.rectangleicon),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.rectangle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
                     )
@@ -222,7 +222,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.redcircle),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.red_circle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
                     )
@@ -235,11 +235,12 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
+                    .testTag("redButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.bluecircle),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.blue_circle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
                     )
@@ -256,9 +257,10 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.greencircle),
-                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        contentDescription = stringResource(id = R.string.green_circle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
+                            .testTag("greenButton")
                     )
                 }
             }
@@ -291,7 +293,6 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                                 change.consume()
                                 offsetX = (offsetX + dragAmount.x).coerceIn(0f, maxWidth)
 
-                                // Convert offset to brush size (1f to 20f range)
                                 val newSize = (offsetX / maxWidth) * 19f + 1f
                                 viewModel.setBrushSize(newSize)
                             }
