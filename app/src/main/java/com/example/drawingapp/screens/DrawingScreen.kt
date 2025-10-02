@@ -43,6 +43,11 @@ import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.platform.LocalDensity
 
 enum class BrushType {
     LINE, CIRCLE, RECTANGLE
@@ -87,6 +92,10 @@ class DrawingViewModel : ViewModel() {
 
     fun setColor(color: Color) {
         _color.value = color
+    }
+
+    fun setBrushSize(size: Float) {
+        _brushSize.value = size
     }
 }
 
@@ -144,114 +153,154 @@ fun BrushMenu(viewModel: DrawingViewModel) {
 fun BrushMenuPortrait(viewModel: DrawingViewModel) {
     val buttonSize = 60.dp
     var pickingColor by remember { mutableStateOf(false) }
+    val brushSize by viewModel.brushSize.collectAsState()
+    Column{
+        Row(
+            Modifier.fillMaxWidth()
+                .padding(top = 25.dp)
+        ) {
+            Button(
+                onClick = {
+                    viewModel.setBrushType(BrushType.LINE)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.lineicon),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    viewModel.setBrushType(BrushType.CIRCLE)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.circleicon),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    viewModel.setBrushType(BrushType.RECTANGLE)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.rectangleicon),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    viewModel.setColor(Color.Red)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+                    .testTag("redButton")
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.redcircle),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    viewModel.setColor(Color.Blue)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.bluecircle),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    viewModel.setColor(Color.Green)
+                },
+                shape = RoundedCornerShape(2.dp),
+                modifier = Modifier
+                    .size(buttonSize)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.greencircle),
+                        contentDescription = stringResource(id = R.string.android_img_desc),
+                        modifier = Modifier
+                            .size(buttonSize)
+                    )
+                }
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding( top = 8.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Size: ${brushSize.toInt()}", modifier = Modifier.padding(end = 8.dp))
 
-    Row(
-        Modifier.fillMaxWidth()
-    ) {
-        Button(
-            onClick = {
-                viewModel.setBrushType(BrushType.LINE)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.lineicon),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(30.dp)
+                    .background(Color.LightGray, RoundedCornerShape(15.dp))
+            ) {
+                var offsetX by remember { mutableStateOf(0f) }
+                val maxWidth =
+                    with(LocalDensity.current) { 255.dp.toPx() }
+
+                Box(
                     modifier = Modifier
-                        .size(buttonSize)
-                )
-            }
-        }
-        Button(
-            onClick = {
-                viewModel.setBrushType(BrushType.CIRCLE)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.circleicon),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
-                    modifier = Modifier
-                        .size(buttonSize)
-                )
-            }
-        }
-        Button(
-            onClick = {
-                viewModel.setBrushType(BrushType.RECTANGLE)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.rectangleicon),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
-                    modifier = Modifier
-                        .size(buttonSize)
-                )
-            }
-        }
-        Button(
-            onClick = {
-                viewModel.setColor(Color.Red)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-                .testTag("redButton")
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.redcircle),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
-                    modifier = Modifier
-                        .size(buttonSize)
-                )
-            }
-        }
-        Button(
-            onClick = {
-                viewModel.setColor(Color.Blue)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.bluecircle),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
-                    modifier = Modifier
-                        .size(buttonSize)
-                )
-            }
-        }
-        Button(
-            onClick = {
-                viewModel.setColor(Color.Green)
-            },
-            shape = RoundedCornerShape(2.dp),
-            modifier = Modifier
-                .size(buttonSize)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.greencircle),
-                    contentDescription = stringResource(id = R.string.android_img_desc),
-                    modifier = Modifier
-                        .size(buttonSize)
+                        .offset { IntOffset(offsetX.toInt(), 0) }
+                        .size(40.dp)
+                        .background(Color.DarkGray, RoundedCornerShape(20.dp))
+                        .pointerInput(Unit) {
+                            detectDragGestures { change, dragAmount ->
+                                change.consume()
+                                offsetX = (offsetX + dragAmount.x).coerceIn(0f, maxWidth)
+
+                                // Convert offset to brush size (1f to 20f range)
+                                val newSize = (offsetX / maxWidth) * 19f + 1f
+                                viewModel.setBrushSize(newSize)
+                            }
+                        }
                 )
             }
         }
     }
+
 }
 
 @Composable
