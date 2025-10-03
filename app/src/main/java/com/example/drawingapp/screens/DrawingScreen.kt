@@ -14,10 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,11 +37,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.drawingapp.R
-import com.github.skydoves.colorpicker.compose.ColorEnvelope
-import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.unit.IntOffset
@@ -139,13 +134,11 @@ fun BrushMenu(viewModel: DrawingViewModel) {
     val configuration = LocalConfiguration.current
     val orientation = configuration.orientation
 
-    val drawingViewModel: DrawingViewModel = viewModel()
-
     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-        BrushMenuPortrait(drawingViewModel)
+        BrushMenuPortrait(viewModel)
     }
     else {
-        BrushMenuLandscape(drawingViewModel)
+        BrushMenuLandscape(viewModel)
     }
 }
 
@@ -166,6 +159,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
+                    .testTag("lineButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -183,6 +177,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
+                    .testTag("circleButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -200,6 +195,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
+                    .testTag("rectangleButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -235,7 +231,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
-                    .testTag("redButton")
+                    .testTag("blueButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -253,6 +249,7 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                 shape = RoundedCornerShape(2.dp),
                 modifier = Modifier
                     .size(buttonSize)
+                    .testTag("greenButton")
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -260,7 +257,6 @@ fun BrushMenuPortrait(viewModel: DrawingViewModel) {
                         contentDescription = stringResource(id = R.string.green_circle_image_desc),
                         modifier = Modifier
                             .size(buttonSize)
-                            .testTag("greenButton")
                     )
                 }
             }

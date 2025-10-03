@@ -8,6 +8,9 @@
       <SelectionState runConfigName="DrawingAppTests">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="testRedButtonClickChangesColor()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
